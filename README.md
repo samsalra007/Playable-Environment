@@ -3,7 +3,7 @@ Open Source library to connect an Arduino microcontroller to Unity 3D via serial
 It is under construction so you can find some bugs.
 
 # Playable Environment for Other Languages
-You can connect via SerialPort compatible languages if you see how our Arduino sketch works [from our wiki first steps](https://github.com/TheKing007/Playable-Environment/wiki/First-Steps).
+You can connect via SerialPort compatible languages if you learn how our Arduino sketch works [from our wiki first steps](https://github.com/TheKing007/Playable-Environment/wiki/First-Steps).
 
 # Install Library
 
