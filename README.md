@@ -22,5 +22,10 @@ it will be more changes soon.
 * Our code runs under 9600 baud rate. If you need to change that value you must change it on Unity Editor Script (ArduinoController class) and "SERIAL_BAUDRATE" on Arduino Sketch (recompile it).
 * In some cases you will get many compilation errors. Only try to change the variable "Api Compatibility Level" to ".NET 2.0" from "Player Settings".
 
+# The next version
+* You will be able to set up the ports via Unity UI.
+* It will be added the wiki to do the basic method like digitalRead(), digitalWrite(), analogRead(), analogWrite().
+* It will be added an example GameObject to do basic operations.
+
 # About Us
 We are an organization located on Guadalajara Jalisco, MX that develops educational software. For more info visit us in our [official site](https://www.besoft.com.mx/)
