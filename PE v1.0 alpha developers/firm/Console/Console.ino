@@ -2,10 +2,12 @@
  * Creator: Samuel Salazar Ramírez      samuel.salazar@besoft.com.mx
  * Company: BeSoftCo
  * Oficial Site: https://www.besoft.com.mx/
+ * Last modification date: July 28th, 2017.
  */
 
 #include <string.h>
 
+// Declares serial variables
 int SERIAL_BAUDRATE = 9600;
 int receivedByte;
 bool isReceivingData;
@@ -19,14 +21,15 @@ class ArduinoController
     String command;
     String subCommand;
 
-    int MIN_DIGITAL_PORT = 0;
-    int MAX_DIGITAL_PORT = 0;
+    //Declares Arduino numeration ports. This is the Arduino MEGA settings.
+    int MIN_DIGITAL_PORT = 22;
+    int MAX_DIGITAL_PORT = 53;
 
     int MIN_ANALOG_PORT = 0;
-    int MAX_ANALOG_PORT = 0;
+    int MAX_ANALOG_PORT = 15;
 
-    int MIN_PWM_PORT = 0;
-    int MAX_PWM_PORT = 0;
+    int MIN_PWM_PORT = 2;
+    int MAX_PWM_PORT = 13;
     
   public:
     ArduinoController()
@@ -41,7 +44,8 @@ class ArduinoController
       commandLenght = command.length();
       this->command = command;
     }
-    
+
+    //This is the first state to receive data.
     void qPlay()
     {
       commandIndex = 0;
@@ -65,14 +69,17 @@ class ArduinoController
         errUndefined();
     }
 
+    //This is the state to generate "About" screen
     void qAbout(){
       getSubCommand(true);
       if(subCommand == "HELP")
         Serial.println("Describes the basic info about the firmware and microcontroller serial port.");
-      else 
+      else
+        //This info can be parsed by ArduinoBaseController class
         Serial.println("Arduino MEGA 2560|v1.0 Alpha 1|BeSoftCo|2017|samuel.salazar@besoft.com.mx");
     }
 
+    //This state flushes the serial data buffered in SerialPort
     void qFlush(){
       getSubCommand(true);
       if(subCommand == "HELP")
@@ -81,6 +88,7 @@ class ArduinoController
         Serial.flush();
     }
 
+    //This state sets a PWM value
     void qPWM()
     {
       getSubCommand(true);
@@ -105,10 +113,12 @@ class ArduinoController
       }
     }
 
+    //This is the digital state
     void qDigital(){
       int digitalPort = 0;
       bool value = false;
       getSubCommand(true);
+      //Configures pinmode
       if(subCommand == "PINMODE" )
       {
         getSubCommand(false);
@@ -127,6 +137,7 @@ class ArduinoController
           errUndefinedValue();
         }
       }
+      //Changes digital port state 
       else if(subCommand == "SET")
       {
         getSubCommand(false);
@@ -145,6 +156,7 @@ class ArduinoController
           errUndefinedValue();
         }
       }
+      //Gets digital port state
       else if(subCommand == "GET")
       {
         getSubCommand(false);
@@ -155,6 +167,8 @@ class ArduinoController
         else 
           Serial.println(0);
       } 
+      
+      //Gets all the digital port states. ArduinoBaseController class parses this data.
       else if(subCommand == "GETALL")
       {
         String sentData = "";
@@ -186,11 +200,12 @@ class ArduinoController
         errUndefined();
       }
     }
-    
+    //This is the analog state
     void qAnalog(){
       getSubCommand(true);
       int analogValue = 0;
       int analogPort = 0;
+      //Gets an analog value and print it on serial console
       if(subCommand == "GET")
       {
         getSubCommand(false);
@@ -198,6 +213,7 @@ class ArduinoController
         analogValue = analogRead(analogPort);
         Serial.println(analogValue);
       }
+      //Gets all analog values and print them on serial console
       else if(subCommand == "GETALL")
       {
         String sentData = "";
@@ -221,7 +237,7 @@ class ArduinoController
         errUndefined();
       }
     }
-
+    //This is the command list state
     void qCommandList()
     {
       getSubCommand(true);
@@ -230,7 +246,8 @@ class ArduinoController
       else
         Serial.println("ABOUT|FLUSH|PWM|DIGITAL|ANALOG");
     }
-    
+
+    //This state sets the limits port values to digital, analog and PWM
     void qSetGlobal(){
       getSubCommand(true);
       int globalValue = 0;
@@ -324,7 +341,8 @@ class ArduinoController
         errGlobalUndefinedVariable();
       }
     }
-    
+
+    //This method gets the next substring and put it on subCommand property
     void getSubCommand(bool isCommand){
       subCommand = "";
       for(; commandIndex < commandLenght; commandIndex++)
@@ -340,6 +358,7 @@ class ArduinoController
         subCommand.toUpperCase();
     }
 
+    //This is the errors definitions
     void errUndefined(){
       if(this->subCommand == "")
         Serial.println("It was waiting for an instruction");
@@ -362,27 +381,34 @@ class ArduinoController
         Serial.println("Variable not defined by microcontroller: '" + this->subCommand + "'");
     }
 };
-
+//Declares ArduinoController object
 ArduinoController *_arduinoController;
+
 void setup() 
 {
+  //Creates ArduinoController object
   _arduinoController = new ArduinoController();
+
+  //Starts serial baudrate
   Serial.begin(SERIAL_BAUDRATE);
+
+  //Starts serial receiving data false (Arduino is still setting up)
   isReceivingData = false;
 }
 
 void loop() 
 {
+    //We do not use while because the loop does while-like.
     if(Serial.available() > 0)
     {
       receivedByte = Serial.read();
-      if((char)receivedByte == '\r')
+      if((char)receivedByte == '\r') // End of line defined by SerialPort class
       {
-          readReceivedData();
-          receivedData = "";
+          readReceivedData(); // It goes to ArduinoController and play it.
+          receivedData = ""; // It Clears received data (our buffer), now the serial port is ready to receive more bytes.
       }
       else
-        receivedData += (char)receivedByte;
+        receivedData += (char)receivedByte; // It concats the last received byte with the string buffered in Arduino.
     }
 }
 
