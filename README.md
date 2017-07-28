@@ -1,4 +1,4 @@
-# Playable-Environment
+# Playable Environment for Unity 3D
 Open Source library to connect an Arduino microcontroller to Unity 3D via serial.
 It is under construction so you can find some bugs.
 
