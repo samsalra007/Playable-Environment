@@ -30,5 +30,3 @@ it will be more changes soon.
 * It will be added the wiki to do the basic method like digitalRead(), digitalWrite(), analogRead(), analogWrite().
 * It will be added an example GameObject to do basic operations.
 
-# About Us
-We are an organization located on Guadalajara Jalisco, MX that develops educational software. For more info visit us in our [official site](https://www.besoft.com.mx/)
