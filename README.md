@@ -17,16 +17,16 @@ it will be more changes soon.
 
 ### Classes Structure
 * "ArduinoBaseController" contains the basic code to connect via serial the microcontroller.
-* "ArduinoController" extends from "ArduinoBaseController" and its structure is Arduino-like structure (this is the file that you must add to your GameObject, it may be your main character).
+* "ArduinoController" extends from "ArduinoBaseController" and its structure is Arduino-like structure (this is the file that you must be added to your main GameObject character).
 * "AboutUI" contains an example to comunicate between Unity UI System and Arduino ports.
 
 # Extra Info
 * Windows support only.
-* Our code runs under 9600 baud rate. If you need to change that value you must change it on Unity Editor Script (ArduinoController class) and "SERIAL_BAUDRATE" on Arduino Sketch (recompile it).
+* Our code runs under 9600 baud rate. If you need to change that value you must change it on Unity Editor Script (ArduinoController class) and global "SERIAL_BAUDRATE" on Arduino Sketch (recompile it).
 * In some cases you will get many compilation errors. Only try to change the variable "Api Compatibility Level" to ".NET 2.0" from "Player Settings".
 
 # The next version
 * You will be able to set up the ports via Unity UI.
 * It will be added the wiki to do the basic method like digitalRead(), digitalWrite(), analogRead(), analogWrite().
 * It will be added an example GameObject to do basic operations.
-
+* It will be able to run under Linux
