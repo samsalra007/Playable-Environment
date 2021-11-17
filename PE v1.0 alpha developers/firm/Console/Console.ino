@@ -1,7 +1,5 @@
 /*
- * Creator: Samuel Salazar Ramírez      samuel.salazar@besoft.com.mx
- * Company: BeSoftCo
- * Oficial Site: https://www.besoft.com.mx/
+ * Creator: Eng. Samuel Salazar Ramírez      samsalra.007@gmail.com
  * Last modification date: July 28th, 2017.
  */
 
